@@ -47,10 +47,10 @@ async def change_password(user:user_dependency,
     if user_model is None:
         raise HTTPException(status_code=404, detail="user not found")
     
-    if not crypt_context.verify(user_verification.password, user_model.hashed_password):
+    if not crypt_context.verify(user_verification.password, user_model.hashed_password): # type: ignore
         raise HTTPException(status_code=401, detail="password mismatch")
 
-    user_model.hashed_password = crypt_context.hash(user_verification.new_password)
+    user_model.hashed_password = crypt_context.hash(user_verification.new_password) # type: ignore
     
     db.add(user_model)
     db.commit()
